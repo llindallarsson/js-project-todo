@@ -1,5 +1,10 @@
+import { TodoList } from "./components/TodoList";
+
 export const App = () => {
   return (
-    <h1>React Boilerplate</h1>
-  )
-}
+    <>
+      <TodoList />
+      <h1>React Boilerplate</h1>;
+    </>
+  );
+};
