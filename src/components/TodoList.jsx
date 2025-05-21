@@ -21,7 +21,16 @@ export const TodoList = () => {
         const labelId = `checkbox-list-label-${todo.id}`;
 
         return (
-          <ListItem key={todo.id} disablePadding>
+          <ListItem
+            key={todo.id}
+            secondaryAction={
+              // här kan vi göra en redigeringsknapp alt delete
+              <IconButton edge='end' aria-label='comments'>
+                <CommentIcon />
+              </IconButton>
+            }
+            disablePadding
+          >
             <ListItemButton role={undefined} dense>
               <ListItemIcon>
                 <Checkbox
