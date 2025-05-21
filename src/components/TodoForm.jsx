@@ -27,7 +27,7 @@ export const TodoForm = () => {
           onChange={(e) => setText(e.target.value)}
         />
         <Button type='submit' variant='contained'>
-          Add
+          +
         </Button>
       </Stack>
     </form>

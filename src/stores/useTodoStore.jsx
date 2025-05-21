@@ -30,4 +30,10 @@ export const useTodoStore = create((set) => ({
       ),
     }));
   },
+
+  deleteTask: (id) => {
+    set((state) => ({
+      tasks: state.tasks.filter((task) => task.id !== id),
+    }));
+  },
 }));
