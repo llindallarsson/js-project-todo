@@ -1,12 +1,16 @@
 import { useTodoStore } from "../stores/useTodoStore";
 
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
+import {
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Checkbox,
+  IconButton,
+  Paper,
+  Box,
+} from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 export const TodoList = () => {
@@ -17,41 +21,60 @@ export const TodoList = () => {
   const deleteTask = useTodoStore((state) => state.deleteTask);
 
   return (
-    <List sx={{ maxWidth: 600, width: "100%", mx: "auto" }}>
-      {todos.map((todo) => {
-        const labelId = `checkbox-list-label-${todo.id}`;
+    <Paper
+      elevation={3}
+      sx={{
+        maxWidth: 600,
+        mx: "auto",
+        my: 2,
+        p: 2,
+        borderRadius: 2,
+        backgroundColor: "background.paper",
+      }}
+    >
+      <List>
+        {todos.map((todo) => {
+          const labelId = `checkbox-list-label-${todo.id}`;
 
-        return (
-          <ListItem
-            key={todo.id}
-            secondaryAction={
-              // här kan vi göra en redigeringsknapp alt delete
-              <IconButton
-                edge='end'
-                aria-label='delete task'
-                onClick={() => deleteTask(todo.id)}
-              >
-                <DeleteIcon />
-              </IconButton>
-            }
-            disablePadding
-          >
-            <ListItemButton role={undefined} dense>
-              <ListItemIcon>
-                <Checkbox
-                  edge='start'
-                  checked={todo.completed}
-                  tabIndex={-1}
-                  disableRipple
-                  inputProps={{ "aria-labelledby": labelId }}
-                  onChange={() => toggleTaskCompletion(todo.id)}
+          return (
+            <ListItem
+              key={todo.id}
+              sx={{ width: "100%" }}
+              disablePadding
+              secondaryAction={
+                <IconButton
+                  edge='end'
+                  aria-label='delete'
+                  onClick={() => deleteTask(todo.id)}
+                >
+                  <DeleteIcon />
+                </IconButton>
+              }
+            >
+              <ListItemButton role={undefined} dense sx={{ width: "100%" }}>
+                <ListItemIcon>
+                  <Checkbox
+                    edge='start'
+                    checked={todo.completed}
+                    tabIndex={-1}
+                    disableRipple
+                    inputProps={{ "aria-labelledby": labelId }}
+                    onChange={() => toggleTaskCompletion(todo.id)}
+                  />
+                </ListItemIcon>
+                <ListItemText
+                  id={labelId}
+                  primary={todo.text}
+                  sx={{
+                    textDecoration: todo.completed ? "line-through" : "none",
+                    color: todo.completed ? "text.disabled" : "text.primary",
+                  }}
                 />
-              </ListItemIcon>
-              <ListItemText id={labelId} primary={todo.text} />
-            </ListItemButton>
-          </ListItem>
-        );
-      })}
-    </List>
+              </ListItemButton>
+            </ListItem>
+          );
+        })}
+      </List>
+    </Paper>
   );
 };

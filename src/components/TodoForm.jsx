@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { useTodoStore } from "../stores/useTodoStore";
 
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
+import { TextField, Button, Stack, Paper } from "@mui/material";
 
 export const TodoForm = () => {
   const [text, setText] = useState("");
@@ -11,18 +9,26 @@ export const TodoForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!text.trim()) return; // hindrar tomma inputs
+    if (!text.trim()) return;
     createTask(text.trim());
     setText("");
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <Stack
-        direction='row'
-        spacing={2}
-        sx={{ maxWidth: 600, width: "100%", mx: "auto" }}
-      >
+    <Paper
+      component='form'
+      onSubmit={handleSubmit}
+      elevation={3}
+      sx={{
+        maxWidth: 600,
+        mx: "auto",
+        my: 2,
+        p: 2,
+        borderRadius: 2,
+        backgroundColor: "background.paper",
+      }}
+    >
+      <Stack direction='row' spacing={2}>
         <TextField
           label='Add a task'
           variant='outlined'
@@ -30,10 +36,15 @@ export const TodoForm = () => {
           value={text}
           onChange={(e) => setText(e.target.value)}
         />
-        <Button type='submit' variant='contained'>
+        <Button
+          type='submit'
+          variant='contained'
+          color='primary'
+          sx={{ px: 3 }}
+        >
           +
         </Button>
       </Stack>
-    </form>
+    </Paper>
   );
 };
