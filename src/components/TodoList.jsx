@@ -1,19 +1,7 @@
 import { useTodoStore } from "../stores/useTodoStore";
-import {
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Checkbox,
-  IconButton,
-  Paper,
-  Box,
-  Typography,
-  Button,
-} from "@mui/material";
-import DeleteIcon from "@mui/icons-material/Delete";
+import { List, Paper, Box, Typography, Button } from "@mui/material";
 import InboxIcon from "@mui/icons-material/Inbox";
+import { TaskItem } from "./TaskItem";
 
 export const TodoList = () => {
   const todos = useTodoStore((state) => state.tasks);
@@ -24,51 +12,19 @@ export const TodoList = () => {
   const clearCompletedTasks = useTodoStore(
     (state) => state.clearCompletedTasks
   );
+
   const uncompleted = todos.filter((t) => !t.completed);
   const completed = todos.filter((t) => t.completed);
 
   const renderTasks = (taskList) =>
-    taskList.map((todo) => {
-      const labelId = `checkbox-list-label-${todo.id}`;
-      return (
-        <ListItem
-          key={todo.id}
-          sx={{ width: "100%" }}
-          disablePadding
-          secondaryAction={
-            <IconButton
-              edge='end'
-              aria-label='delete task'
-              onClick={() => deleteTask(todo.id)}
-            >
-              <DeleteIcon />
-            </IconButton>
-          }
-        >
-          <ListItemButton role={undefined} dense sx={{ width: "100%" }}>
-            <ListItemIcon>
-              <Checkbox
-                edge='start'
-                checked={todo.completed}
-                tabIndex={-1}
-                disableRipple
-                inputProps={{ "aria-labelledby": labelId }}
-                onChange={() => toggleTaskCompletion(todo.id)}
-                aria-label='task completed'
-              />
-            </ListItemIcon>
-            <ListItemText
-              id={labelId}
-              primary={todo.text}
-              sx={{
-                textDecoration: todo.completed ? "line-through" : "none",
-                color: todo.completed ? "text.disabled" : "text.primary",
-              }}
-            />
-          </ListItemButton>
-        </ListItem>
-      );
-    });
+    taskList.map((todo) => (
+      <TaskItem
+        key={todo.id}
+        todo={todo}
+        onToggle={toggleTaskCompletion}
+        onDelete={deleteTask}
+      />
+    ));
 
   return (
     <Paper
@@ -77,7 +33,7 @@ export const TodoList = () => {
         maxWidth: 600,
         mx: "auto",
         my: 2,
-        p: todos.length === 0 ? 2 : 2,
+        p: 2,
         borderRadius: 2,
         backgroundColor: "background.paper",
         minHeight: 150,
@@ -100,30 +56,27 @@ export const TodoList = () => {
           </Typography>
         </Box>
       ) : (
-        <>
+        <Box display='flex' flexDirection='column' gap={4}>
           {uncompleted.length > 0 && (
-            <>
+            <Box>
               <Typography variant='h6' sx={{ mb: 1 }}>
                 Tasks
               </Typography>
               <List>{renderTasks(uncompleted)}</List>
-            </>
+            </Box>
           )}
 
           {completed.length > 0 && (
-            <>
+            <Box>
               <Box
                 sx={{
-                  mt: 3,
                   mb: 1,
                   display: "flex",
                   justifyContent: "space-between",
                   alignItems: "center",
                 }}
               >
-                <Typography variant='h6' sx={{ mt: 3, mb: 1 }}>
-                  Completed
-                </Typography>
+                <Typography variant='h6'>Completed</Typography>
                 <Button
                   size='small'
                   color='error'
@@ -134,9 +87,9 @@ export const TodoList = () => {
                 </Button>
               </Box>
               <List>{renderTasks(completed)}</List>
-            </>
+            </Box>
           )}
-        </>
+        </Box>
       )}
     </Paper>
   );
