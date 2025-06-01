@@ -1,39 +1,35 @@
 import { create } from "zustand";
+import { persist } from "zustand/middleware";
 
-const initialState = {
-  tasks: [
-    {
-      id: 1,
-      text: "My first message",
-      completed: false,
-    },
-  ],
-};
+export const useTodoStore = create(
+  persist(
+    (set) => ({
+      tasks: [],
 
-export const useTodoStore = create((set) => ({
-  ...initialState,
+      createTask: (text) =>
+        set((state) => {
+          const newTask = {
+            id: Date.now(),
+            text,
+            completed: false,
+          };
+          return { tasks: [newTask, ...state.tasks] };
+        }),
 
-  createTask: (text) =>
-    set((state) => {
-      const newTask = {
-        id: Date.now(),
-        text,
-        completed: false,
-      };
-      return { tasks: [newTask, ...state.tasks] };
+      toggleTaskCompletion: (id) =>
+        set((state) => ({
+          tasks: state.tasks.map((task) =>
+            task.id === id ? { ...task, completed: !task.completed } : task
+          ),
+        })),
+
+      deleteTask: (id) =>
+        set((state) => ({
+          tasks: state.tasks.filter((task) => task.id !== id),
+        })),
     }),
-
-  toggleTaskCompletion: (id) => {
-    set((state) => ({
-      tasks: state.tasks.map((task) =>
-        task.id === id ? { ...task, completed: !task.completed } : task
-      ),
-    }));
-  },
-
-  deleteTask: (id) => {
-    set((state) => ({
-      tasks: state.tasks.filter((task) => task.id !== id),
-    }));
-  },
-}));
+    {
+      name: "todo-storage", // nyckeln i localStorage
+    }
+  )
+);

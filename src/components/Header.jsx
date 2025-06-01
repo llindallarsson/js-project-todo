@@ -23,7 +23,7 @@ export const Header = () => {
         borderColor: "divider",
       }}
     >
-      <Typography variant='h4' component='h1' gutterBottom>
+      <Typography variant='h2' component='h1' gutterBottom>
         To do app
       </Typography>
       <Typography variant='subtitle1' color='text.secondary'>

@@ -1,5 +1,4 @@
 import { useTodoStore } from "../stores/useTodoStore";
-
 import {
   List,
   ListItem,
@@ -10,8 +9,10 @@ import {
   IconButton,
   Paper,
   Box,
+  Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import InboxIcon from "@mui/icons-material/Inbox";
 
 export const TodoList = () => {
   const todos = useTodoStore((state) => state.tasks);
@@ -19,6 +20,36 @@ export const TodoList = () => {
     (state) => state.toggleTaskCompletion
   );
   const deleteTask = useTodoStore((state) => state.deleteTask);
+
+  if (todos.length === 0) {
+    return (
+      <Paper
+        elevation={3}
+        sx={{
+          maxWidth: 600,
+          mx: "auto",
+          my: 2,
+          p: 2,
+          borderRadius: 2,
+          backgroundColor: "background.paper",
+          textAlign: "center",
+          color: "text.secondary",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: 2,
+        }}
+      >
+        <InboxIcon sx={{ fontSize: 60, color: "primary.main" }} />
+        <Typography variant='h6' component='p'>
+          There's nothing here...
+        </Typography>
+        <Typography variant='body2'>
+          Add your first task to get started.
+        </Typography>
+      </Paper>
+    );
+  }
 
   return (
     <Paper
@@ -60,6 +91,7 @@ export const TodoList = () => {
                     disableRipple
                     inputProps={{ "aria-labelledby": labelId }}
                     onChange={() => toggleTaskCompletion(todo.id)}
+                    aria-label='delete'
                   />
                 </ListItemIcon>
                 <ListItemText
