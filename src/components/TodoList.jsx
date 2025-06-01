@@ -7,7 +7,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
-import CommentIcon from "@mui/icons-material/Comment";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 export const TodoList = () => {
   const todos = useTodoStore((state) => state.tasks);
@@ -17,7 +17,7 @@ export const TodoList = () => {
   const deleteTask = useTodoStore((state) => state.deleteTask);
 
   return (
-    <List sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}>
+    <List sx={{ maxWidth: 600, width: "100%", mx: "auto" }}>
       {todos.map((todo) => {
         const labelId = `checkbox-list-label-${todo.id}`;
 
@@ -28,10 +28,10 @@ export const TodoList = () => {
               // här kan vi göra en redigeringsknapp alt delete
               <IconButton
                 edge='end'
-                aria-label='comments'
+                aria-label='delete task'
                 onClick={() => deleteTask(todo.id)}
               >
-                <CommentIcon />
+                <DeleteIcon />
               </IconButton>
             }
             disablePadding

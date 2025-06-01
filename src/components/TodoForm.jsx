@@ -18,9 +18,13 @@ export const TodoForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <Stack direction='row' spacing={2}>
+      <Stack
+        direction='row'
+        spacing={2}
+        sx={{ maxWidth: 600, width: "100%", mx: "auto" }}
+      >
         <TextField
-          label='New Task'
+          label='Add a task'
           variant='outlined'
           fullWidth
           value={text}

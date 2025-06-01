@@ -1,11 +1,13 @@
+import { Header } from "./components/Header";
 import { TodoList } from "./components/TodoList";
 import { TodoForm } from "./components/TodoForm";
 
 export const App = () => {
   return (
     <>
-      <TodoForm></TodoForm>
+      <Header></Header>
       <TodoList />
+      <TodoForm></TodoForm>
     </>
   );
 };
