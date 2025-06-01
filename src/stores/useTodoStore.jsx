@@ -27,9 +27,14 @@ export const useTodoStore = create(
         set((state) => ({
           tasks: state.tasks.filter((task) => task.id !== id),
         })),
+
+      clearCompletedTasks: () =>
+        set((state) => ({
+          tasks: state.tasks.filter((task) => !task.completed),
+        })),
     }),
     {
-      name: "todo-storage", // nyckeln i localStorage
+      name: "todo-storage",
     }
   )
 );
