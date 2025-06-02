@@ -38,6 +38,8 @@ export const TaskItem = ({ todo, onToggle, onDelete }) => {
           sx={{
             textDecoration: todo.completed ? "line-through" : "none",
             color: todo.completed ? "text.disabled" : "text.primary",
+            wordBreak: "break-word",
+            whiteSpace: "pre-wrap",
           }}
         />
       </ListItemButton>
